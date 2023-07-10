@@ -1,14 +1,17 @@
+"""Using dataclasses to store  data inside an enum class"""
+import dataclasses
+
+@dataclasses.dataclass
 class Variables:
-    prefix: str = '$'
-    LOGS: bool = True
+    """Provides return codes for the output of different functions"""
 
+    exerror: int = 100
+    error: int = 101
+    success: int = 102
 
-    ExError: int = 100
-    Error: int = 101
-    Success: int = 102
+    #LOGS
 
-    #LOGS 
-    LogsOff: int = 300
-    logsOn: int = 301
+    logsoff: int = 300
+    logson: int = 301
 
-    Quit: int = 200
+    quit: int = 200
