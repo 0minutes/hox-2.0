@@ -11,7 +11,7 @@ class FileManageClass:
         self.prefix: str = prefix
 
     def promptcheck(self, userprompt) -> int:
-        """Checks the input of the user to match the subcommand to the right command"""
+        """Checks the input of the user to match the subcommand to the right function"""
         splitprompt = userprompt.split()
         if ((splitprompt[0].lower() == f'{self.prefix}f' and len(splitprompt) == 1) or (splitprompt[0].lower() == f'{self.prefix}file' and len(splitprompt) == 1)):
             self.filehelp()

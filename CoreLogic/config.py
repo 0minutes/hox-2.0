@@ -59,7 +59,7 @@ class Config:
             configfile.close()
         
         print('Successfully loaded the default settings:\nLogs: \n')
-        return Variables.success
+        return Variables.logsoff
         
     def editconfig(self) -> int:
         """Allows the user to edit the config"""
@@ -93,7 +93,10 @@ class Config:
                     configfile.close()
 
                 print('Changes saved')
-                return Variables.success
+                if (not logs):
+                    return Variables.logsoff
+                if (logs):
+                    return Variables.logson
 
             if (input('Save changes? (y/n)').lower() == 'n'):
                 print('Changes Cancelled.')

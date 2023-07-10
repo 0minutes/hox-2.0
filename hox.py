@@ -1,7 +1,7 @@
 '''Using json to extract prefix and logs variables'''
 import json
-from CoreLogic.const import Variables
 from CoreLogic.handler import Handler
+from CoreLogic.logs import Logs
 
 
 def main() -> int:
@@ -11,17 +11,26 @@ def main() -> int:
         file.close()
 
     prefix = config['prefix']
-
-    # logs=config['logs']
+    logs=config['logs']
+    log = Logs()
 
     while True:
-        if (
-            Handler
-            (
-                prompt=input(f'<{prefix}>'),
-                prefix=prefix
-            ).match() == Variables.quit):
-            return 0
 
+        prompt = input(f'<{prefix}>')
+
+        if (logs):
+            log.writefile(prompt=prompt)
+
+        handler = Handler(prefix=prefix, prompt=prompt)
+
+        match handler.match():
+            case 200:
+                return 0
+
+            case 300:
+                logs = False
+            
+            case 301:
+                logs = True
 
 main()
