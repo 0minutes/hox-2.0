@@ -6,7 +6,7 @@ from CoreLogic.const import Variables
 class Config:
     """All the commands used for configuration."""
     def __init__(self, prefix: str, logs: bool) -> None:
-        with open('CoreLogic/config.json', 'r', encoding='utf-8') as f:
+        with open('json/config.json', 'r', encoding='utf-8') as f:
             current = json.loads(f.read())
 
         self.currentprefix = current['prefix']
@@ -17,7 +17,7 @@ class Config:
             'prefix': '$',
             'logs': False,
         }
-        self.dir = 'CoreLogic/config.json'
+        self.dir = 'json/config.json'
 
     def promptcheck(self, userprompt):
         """Matches the user input to the right function"""
@@ -58,7 +58,7 @@ class Config:
             configfile.write(json.dumps(self.defaults, indent=4))
             configfile.close()
         
-        print('Successfully loaded the default settings:\nLogs: \n')
+        print('Successfully loaded the default settings:\nLogs: off\nprefix: \'$\'')
         return Variables.logsoff
         
     def editconfig(self) -> int:

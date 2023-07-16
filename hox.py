@@ -6,7 +6,7 @@ from CoreLogic.logs import Logs
 
 def main() -> int:
     '''Main Function'''
-    with open('CoreLogic/config.json', 'r', encoding="utf-8") as file:
+    with open('json/config.json', 'r', encoding="utf-8") as file:
         config = json.loads(file.read())
         file.close()
 

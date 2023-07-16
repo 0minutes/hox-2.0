@@ -1,4 +1,4 @@
-'''Using json to extract logs variables and datetime to make an appropritate name for the log file'''
+'''Using json to extract logs variables''' 
 import json
 import datetime
 import os
@@ -8,7 +8,7 @@ from CoreLogic.const import Variables
 class Logs:
     """Handles all the logs and whats happening"""
     def __init__(self) -> None:
-        with open('CoreLogic/config.json', 'r', encoding='utf-8') as file:
+        with open('json/config.json', 'r', encoding='utf-8') as file:
             configuration = json.loads(file.read())
             file.close()
 
@@ -17,7 +17,7 @@ class Logs:
         self.logs = configuration['logs']
         self.folderpath = 'logs/'
 
-    def promptcheck(self, prompt:str) -> int:
+    def promptcheck(self, prompt: str) -> int:
         """Checks the input of the user to match the subcommand to the right function"""
         splitprompt: list = prompt.split()
 
@@ -55,7 +55,7 @@ class Logs:
                 'logs': True,
                 }
 
-                with open('CoreLogic/config.json', 'w', encoding="utf-8") as configfile:
+                with open('json/config.json', 'w', encoding="utf-8") as configfile:
                     configfile.write(json.dumps(configuration, indent=4))
                     configfile.close()
 
@@ -73,7 +73,7 @@ class Logs:
                 'logs': False,
                 }
 
-                with open('CoreLogic/config.json', 'w', encoding="utf-8") as configfile:
+                with open('json/config.json', 'w', encoding="utf-8") as configfile:
                     configfile.write(json.dumps(configuration, indent=4))
                     configfile.close()
 
