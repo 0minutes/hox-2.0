@@ -3,7 +3,7 @@ import json
 from CoreLogic.handler import Handler
 from CoreLogic.logs import Logs
 from CoreLogic.decorators import logger
-
+    
 @logger
 def main() -> int:
     '''Main Function'''

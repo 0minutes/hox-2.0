@@ -136,8 +136,8 @@ class FileManageClass:
             print(f"An unknown error occurred: {exp}")
             return Variables.exerror
 
-    @logger
     @staticmethod
+    @logger
     def filetofile(args: str) -> int:
         """Allows you to copy file to a different directory with a different name."""
         args = args.split()
@@ -168,8 +168,8 @@ class FileManageClass:
             print(f"An unexpected error occurred: {exp}")
             return Variables.exerror
 
-    @logger
     @staticmethod
+    @logger
     def viewfile(filepath: str) -> int:
         """Outputs the contents of a file"""
         filepathsplit = filepath.split()
@@ -198,8 +198,8 @@ class FileManageClass:
             print(f"An unexpected error occurred: {exp}")
             return Variables.error
 
-    @logger
     @staticmethod
+    @logger
     def delfile(filepath: str) -> int:
         """Allows you to delete a file from a curtain directory."""
         filepathsplit = filepath.split()

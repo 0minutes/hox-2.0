@@ -23,13 +23,9 @@ def logger(function):
             result = function(*args, **kwargs)
             end = time.time()
             parameters = ', '.join(f'{keyword} = {value}' for keyword, value in kwargs.items())
-            if args:
-                arg_values = [arg if arg != args[0] else "self" for arg in args]
-                arguments = ', '.join(str(arg) for arg in arg_values)
-                print(f"run function: {function.__name__}()\n\tTook {end - start:.5f}s\n\tReturned {result}\n\tParams used: {arguments}")
-                return result
-
-            print(f"run function: {function.__name__}()\n\tTook {end - start:.5f}s\n\tReturned {result}\n\tParams used: {parameters if any(parameters) else 'None'}")
+            arg_values = [arg if arg != args[0] else "self" for arg in args]
+            arguments = ', '.join(str(arg) for arg in arg_values)
+            print(f"run function: {function.__name__}()\n\tTook {end - start:.5f}s\n\tReturned {result}\n\tParams used:\n\t   *args {arguments}\n\t   **kwargs {parameters if any(parameters) else 'None'}")
             return result
     
         return wrapper
