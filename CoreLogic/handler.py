@@ -5,8 +5,9 @@ from CoreLogic.file import FileManageClass
 from CoreLogic.config import Config
 from CoreLogic.logs import Logs
 from CoreLogic.customcommands import Customcommands
-from CoreLogic.decorators import logger
+from CoreLogic.decorators import logger, classlogger
 
+@classlogger
 class Handler:
     """Handles all the input coming from the user and provides an output depending on the input"""
     

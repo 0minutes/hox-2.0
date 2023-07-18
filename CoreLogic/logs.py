@@ -4,8 +4,9 @@ import datetime
 import os
 from typing import Union
 from CoreLogic.variables import Variables
-from CoreLogic.decorators import logger
+from CoreLogic.decorators import logger, classlogger
 
+@classlogger
 class Logs:
     """Handles all the logs and whats happening"""
     def __init__(self) -> None:

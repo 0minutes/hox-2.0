@@ -1,8 +1,9 @@
 '''Using json to extract prefix and logs variables'''
 import json
 from CoreLogic.variables import Variables
-from CoreLogic.decorators import logger
+from CoreLogic.decorators import logger, classlogger
 
+@classlogger
 class Config:
     """All the commands used for configuration."""
     def __init__(self, prefix: str, logs: bool) -> None:

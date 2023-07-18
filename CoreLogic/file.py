@@ -2,8 +2,9 @@
 import os
 import shutil
 from CoreLogic.variables import Variables
-from CoreLogic.decorators import logger
+from CoreLogic.decorators import logger, classlogger
 
+@classlogger
 class FileManageClass:
     """All the commands used for file management."""
 

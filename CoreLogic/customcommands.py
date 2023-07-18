@@ -1,9 +1,11 @@
 '''using json to encode the command names'''
 import json
 import os
+import datetime
 from CoreLogic.variables import Variables
-from CoreLogic.decorators import logger
+from CoreLogic.decorators import logger, classlogger
 
+@classlogger
 class Customcommands:
     '''Allows the user to add their own custom python scripts'''
 
@@ -139,7 +141,8 @@ class Customcommands:
         
         {
             "hox": {
-                location: 'path/to/file'
+                "location": 'path/to/file',
+                "AdditionDate": 'xxxx'
             }
         }\n
         prompt example "$cc add hox.py hox"
@@ -154,16 +157,17 @@ class Customcommands:
         location = os.path.join(os.getcwd(), promptsplit[2])
         jsonform = {
             promptsplit[3]:{
-                'location': location
+                'location': location,
+                'AdditionDate': f'{datetime.date.today()}'
             }
         }
 
-        with open('json/customcommands.json', 'r', encoding='utf-8') as file:
-            jsondata: list = json.load(file)
+        with open('json/customcommands.json', 'r', encoding="utf-8") as file:
+            jsondata: list = json.loads(file.read())
 
         jsondata.append(jsonform)
 
-        with open('json/customcommands.json', 'w', encoding='utf-8') as customcommandfile:
+        with open('json/customcommands.json', 'w', encoding="utf-8") as customcommandfile:
             customcommandfile.write(json.dumps(jsondata, indent=4))
             customcommandfile.write('\n')
         print(f'Successfuly added {promptsplit[3]} to custom commands!')
@@ -176,14 +180,15 @@ class Customcommands:
         - Retrieves data by script name from json file
         - Gets all the script names
         - Prints all the names in order'''
-
+        scriptnum = 0
+        
         with open('json/customcommands.json', 'r', encoding='utf-8') as file:
             scriptdata: list = json.load(file)
 
         for script in scriptdata:
-            for scriptnum, name in enumerate(script, start=0):
-                print(f'{1+scriptnum}: {name}')
-                scriptnum =+ 1
+            scriptnum += 1
+            for scriptkey, scriptvalue in script.items():
+                print(f'{scriptnum}: {scriptkey} Added on: {scriptvalue["AdditionDate"]}')
 
         return Variables.success
 

@@ -3,7 +3,7 @@ import json
 from CoreLogic.handler import Handler
 from CoreLogic.logs import Logs
 from CoreLogic.decorators import logger
-    
+
 @logger
 def main() -> int:
     '''Main Function'''
@@ -12,12 +12,13 @@ def main() -> int:
         file.close()
 
     prefix = config['prefix']
-    logs=config['logs']
+    logs = config['logs']
+    debug = config['debug']
     log = Logs()
 
     while True:
 
-        prompt = input(f'<{prefix}>')
+        prompt = input(f'<{prefix if (debug is False) else "DEBUG"}>')
 
         if (logs):
             log.writefile(prompt=prompt)
@@ -30,7 +31,7 @@ def main() -> int:
 
             case 300:
                 logs = False
-            
+
             case 301:
                 logs = True
 
