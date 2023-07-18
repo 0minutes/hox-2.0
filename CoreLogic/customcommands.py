@@ -1,7 +1,8 @@
 '''using json to encode the command names'''
 import json
 import os
-from CoreLogic.const import Variables
+from CoreLogic.variables import Variables
+from CoreLogic.decorators import logger
 
 class Customcommands:
     '''Allows the user to add their own custom python scripts'''
@@ -14,6 +15,7 @@ class Customcommands:
         self.prefix = configuration['prefix']
         self.logs = configuration['logs']
 
+    @logger
     def promptcheck(self, prompt: str) -> int:
         """Matches the user input to the right function"""
         splitprompt = prompt.split()
@@ -72,6 +74,7 @@ class Customcommands:
                 f'Unknown subcommand \'{default}\' for the Custom Commands branch')
                 return Variables.exerror
 
+    @logger
     def cchelp(self) -> int:
         """Shows the commands for the customcommands class"""
         print(f'''CUSTOM COMMANDS:
@@ -83,6 +86,7 @@ class Customcommands:
 
         return Variables.success
 
+    @logger
     def filedata(self, path: str) -> str:
         '''Opens and reads data from a file and returns it to the '''
 
@@ -109,7 +113,8 @@ class Customcommands:
             print(f"An unexpected error occurred: {exp}")
             return Variables.error
 
-    def remove(self, prompt: str):
+    @logger
+    def remove(self, prompt: str) -> int:
         '''Removes a given script
         $cc r hox'''
         promptsplit: list = prompt.split()
@@ -128,6 +133,7 @@ class Customcommands:
         print(f'Successfuly removed {promptsplit[2]} from custom commands!')
         return Variables.success
 
+    @logger
     def jsonize(self, prompt: str) -> int:
         '''Convert the script into json in this format:
         
@@ -163,7 +169,8 @@ class Customcommands:
         print(f'Successfuly added {promptsplit[3]} to custom commands!')
         return Variables.success
     
-    def listcom(self):
+    @logger
+    def listcom(self) -> int:
         '''Lists all the script names that exist in the jsonfile\n
         prompt example "$cc l/list"
         - Retrieves data by script name from json file
@@ -180,6 +187,7 @@ class Customcommands:
 
         return Variables.success
 
+    @logger
     def evaluate(self, prompt: str) -> int:
         '''evaluates the custom script\n
         prompt example "$cc e/eval scriptname"

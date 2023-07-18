@@ -1,7 +1,7 @@
 '''Using json to extract prefix and logs variables'''
 import json
-from CoreLogic.const import Variables
-
+from CoreLogic.variables import Variables
+from CoreLogic.decorators import logger
 
 class Config:
     """All the commands used for configuration."""
@@ -16,10 +16,12 @@ class Config:
         self.defaults = {
             'prefix': '$',
             'logs': False,
+            'debug': False
         }
         self.dir = 'json/config.json'
 
-    def promptcheck(self, userprompt):
+    @logger
+    def promptcheck(self, userprompt) -> int:
         """Matches the user input to the right function"""
         splitprompt = userprompt.split()
         if ((splitprompt[0].lower() == f'{self.currentprefix}cfg' and len(splitprompt) == 1) or (splitprompt[0].lower() == f'{self.currentprefix}config' and len(splitprompt) == 1)):
@@ -43,6 +45,7 @@ class Config:
                 print(f'Unknown subcommand \'{default}\' for the config management branch')
                 return Variables.exerror
 
+    @logger
     def confighelp(self) -> int:
         """Shows all the functions in the config branch"""
         print(f'''FILE MANAGEMENT:
@@ -52,7 +55,8 @@ class Config:
 
         return Variables.success
 
-    def defaultconfig(self):
+    @logger
+    def defaultconfig(self) -> int:
         """Sets the config to default settings"""
         with open(self.dir, 'w', encoding="utf-8") as configfile:
             configfile.write(json.dumps(self.defaults, indent=4))
@@ -60,7 +64,8 @@ class Config:
         
         print('Successfully loaded the default settings:\nLogs: off\nprefix: \'$\'')
         return Variables.logsoff
-        
+    
+    @logger
     def editconfig(self) -> int:
         """Allows the user to edit the config"""
         prefix = input('Enter a prefix or leave blank for default ($): ')
@@ -86,6 +91,7 @@ class Config:
                 configuration = {
                 'prefix': prefix,
                 'logs': logs,
+                'debug': False
                 }
 
                 with open(self.dir, 'w', encoding="utf-8") as configfile:
@@ -103,8 +109,8 @@ class Config:
                 return Variables.success
 
             print("Invalid input try again...")
-
-    def viewconfig(self):
+    @logger
+    def viewconfig(self) -> int:
         """Allows the user to view the current config"""
         print(f'''CURRENT CONFIG SETTINGS:
         LOGS: {self.currentlog}

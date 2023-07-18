@@ -1,4 +1,5 @@
 {
     "prefix": "$",
-    "logs": false
+    "logs": false,
+    "debug": false
 }

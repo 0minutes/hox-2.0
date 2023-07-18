@@ -3,7 +3,8 @@ import json
 import datetime
 import os
 from typing import Union
-from CoreLogic.const import Variables
+from CoreLogic.variables import Variables
+from CoreLogic.decorators import logger
 
 class Logs:
     """Handles all the logs and whats happening"""
@@ -17,6 +18,7 @@ class Logs:
         self.logs = configuration['logs']
         self.folderpath = 'logs/'
 
+    @logger
     def promptcheck(self, prompt: str) -> int:
         """Checks the input of the user to match the subcommand to the right function"""
         splitprompt: list = prompt.split()
@@ -40,6 +42,7 @@ class Logs:
                     f'Unknown subcommand \'{default}\' for the logs branch')
                 return Variables.exerror
 
+    @logger
     def update(self, prompt: str) -> int:
         '''Updates the logs by turning them off or on'''
         splitprompt: list = prompt.split()
@@ -81,6 +84,7 @@ class Logs:
                 print('Logs turned off')
                 return Variables.logsoff
 
+    @logger
     def logshelp(self) -> int:
         """Shows the commands for the logs class"""
         print(f'''LOGS:
@@ -89,6 +93,7 @@ class Logs:
 
         return Variables.success
 
+    @logger
     def createfile(self) -> Union[str, None]:
         '''Creates the log file if one doesnt already exist'''
         if (self.logfile is not None):
@@ -107,6 +112,7 @@ class Logs:
             self.logfile = logfile
             return self.logfile
 
+    @logger
     def writefile(self, prompt: str) -> None:
         '''Writes inside the logfile if Logs are on otherwise not'''
         if (self.logfile is None):
@@ -116,7 +122,8 @@ class Logs:
             with open(self.logfile, 'a', encoding='utf-8') as file:
                 time = datetime.datetime.now().strftime('%H-%M-%S')
                 file.write(f'[{time}]: {prompt}\n')
-
+    
+    @logger
     def clearlogs(self) -> int:
         '''Clears all the files in the logs folder'''
 

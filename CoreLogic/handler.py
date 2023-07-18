@@ -1,11 +1,11 @@
 """Using OS to perform shell commands"""
 import os
-from CoreLogic.const import Variables
+from CoreLogic.variables import Variables
 from CoreLogic.file import FileManageClass
 from CoreLogic.config import Config
 from CoreLogic.logs import Logs
 from CoreLogic.customcommands import Customcommands
-
+from CoreLogic.decorators import logger
 
 class Handler:
     """Handles all the input coming from the user and provides an output depending on the input"""
@@ -17,6 +17,7 @@ class Handler:
         self.promptlower: str = prompt.lower()
         self.promptlowerslice: list = prompt.lower().split()
 
+    @logger
     def match(self) -> int:
         """Matches the input to the right command or executed the command"""
         if (self.prompt.startswith(self.prefix)):
@@ -45,6 +46,7 @@ class Handler:
         os.system(self.prompt)
         return Variables.success
 
+    @logger
     def help(self) -> int:
         """The help function matches the command name to show it's help message"""
         match len(self.promptslice):

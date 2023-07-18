@@ -1,8 +1,8 @@
 """Using OS and Shutil to be able to interact with files"""
 import os
 import shutil
-from CoreLogic.const import Variables
-
+from CoreLogic.variables import Variables
+from CoreLogic.decorators import logger
 
 class FileManageClass:
     """All the commands used for file management."""
@@ -10,6 +10,7 @@ class FileManageClass:
     def __init__(self, prefix) -> None:
         self.prefix: str = prefix
 
+    @logger
     def promptcheck(self, userprompt) -> int:
         """Checks the input of the user to match the subcommand to the right function"""
         splitprompt = userprompt.split()
@@ -81,6 +82,7 @@ class FileManageClass:
 
         return 0
 
+    @logger
     def filehelp(self) -> int:
         """Shows the commands for the file management class"""
         print(f'''FILE MANAGEMENT:
@@ -92,6 +94,7 @@ class FileManageClass:
         return Variables.success
 
     @staticmethod
+    @logger
     def movefile(args: str) -> int:
         """Allows you to move a file by providing the dir of the file and where for it to end up"""
         args: list = args.split()
@@ -133,6 +136,7 @@ class FileManageClass:
             print(f"An unknown error occurred: {exp}")
             return Variables.exerror
 
+    @logger
     @staticmethod
     def filetofile(args: str) -> int:
         """Allows you to copy file to a different directory with a different name."""
@@ -164,6 +168,7 @@ class FileManageClass:
             print(f"An unexpected error occurred: {exp}")
             return Variables.exerror
 
+    @logger
     @staticmethod
     def viewfile(filepath: str) -> int:
         """Outputs the contents of a file"""
@@ -193,6 +198,7 @@ class FileManageClass:
             print(f"An unexpected error occurred: {exp}")
             return Variables.error
 
+    @logger
     @staticmethod
     def delfile(filepath: str) -> int:
         """Allows you to delete a file from a curtain directory."""
