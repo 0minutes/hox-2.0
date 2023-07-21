@@ -1,4 +1,4 @@
-"""Using OS to perform shell commands"""
+"""Handles all input coming in from the main function"""
 import os
 from CoreLogic.variables import Variables
 from CoreLogic.file import FileManageClass
@@ -40,11 +40,22 @@ class Handler:
 
             elif (self.promptlowerslice[0] == f'{self.prefix}h' or self.promptlowerslice[0] == f'{self.prefix}help'):
                 return self.help()
+            
+            elif (self.promptlowerslice[0] == f'{self.prefix}e'or self.promptlowerslice[0] == f'{self.prefix}eval'):
+                return self.manualeval()
+            
 
             print(f'Unknown command: {self.prompt}')
             return Variables.error
-
+        
         os.system(self.prompt)
+        return Variables.success
+    
+    @logger
+    def manualeval(self):
+        match self.promptlowerslice[0]:
+            case 'e': os.system(self.prompt.removeprefix(f'{self.prefix}e '))
+            case 'eval': os.system(self.prompt.removeprefix(f'{self.prefix}eval '))
         return Variables.success
 
     @logger
@@ -62,14 +73,9 @@ class Handler:
 
             case 2:
                 match self.promptlowerslice[1]:
-                    case 'f' | 'file':
-                        return FileManageClass(prefix = self.prefix).filehelp()
-
-                    case 'l' | 'logs':
-                        return Logs().logshelp()
-                    
-                    case 'c' | 'customcommands':
-                        return Customcommands().cchelp()
+                    case 'f' | 'file': return FileManageClass(prefix = self.prefix).filehelp()
+                    case 'l' | 'logs': return Logs().logshelp()
+                    case 'c' | 'customcommands': return Customcommands().cchelp()
 
                     case default:
                         print(f'{default} is an unknown command')

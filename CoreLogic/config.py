@@ -1,4 +1,4 @@
-'''Using json to extract prefix and logs variables'''
+'''Handles all input for configuration and allows user to change default settings'''
 import json
 from CoreLogic.variables import Variables
 from CoreLogic.decorators import logger, classlogger
@@ -49,7 +49,7 @@ class Config:
     @logger
     def confighelp(self) -> int:
         """Shows all the functions in the config branch"""
-        print(f'''FILE MANAGEMENT:
+        print(f'''CONFIG HELP:
         {self.currentprefix}cfg(config) e(edit)    -> allows you to edit the current configuration
         {self.currentprefix}cfg(config) v(view)    -> allows you to view the current configuration
         {self.currentprefix}cfg(config) d(default) -> allows you to load the default configuration: Logs off, prefix \'$\'''')

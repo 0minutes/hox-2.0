@@ -1,4 +1,4 @@
-'''using json to encode the command names'''
+'''Handles all input and allows for custom commands which run different scripts'''
 import json
 import os
 import datetime

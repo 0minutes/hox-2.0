@@ -1,4 +1,4 @@
-"""Using dataclasses to store  data inside an enum class"""
+"""Contains all the return values for consistency"""
 import dataclasses
 
 @dataclasses.dataclass

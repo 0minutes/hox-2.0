@@ -1,4 +1,4 @@
-"""Using OS and Shutil to be able to interact with files"""
+"""Handles all the file commands"""
 import os
 import shutil
 from CoreLogic.variables import Variables
@@ -21,8 +21,7 @@ class FileManageClass:
 
         match splitprompt[1].lower():
             case 'move' | 'mv':
-                if len(splitprompt) == 4:
-                    return self.movefile(userprompt)
+                if len(splitprompt) == 4: return self.movefile(userprompt)
 
                 if len(splitprompt) > 3:
                     print(
@@ -35,8 +34,7 @@ class FileManageClass:
                     return Variables.error
 
             case 'view' | 'v':
-                if len(splitprompt) == 3:
-                    return self.viewfile(userprompt)
+                if len(splitprompt) == 3: return self.viewfile(userprompt)
 
                 if len(splitprompt) < 3:
                     print(
@@ -56,8 +54,7 @@ class FileManageClass:
                     f' <to file dir>')
                     return Variables.error
 
-                if len(splitprompt) == 4:
-                    return self.filetofile(userprompt)
+                if len(splitprompt) == 4: return self.filetofile(userprompt)
 
             case 'del' | 'dl':
                 if len(splitprompt) < 3:
@@ -65,16 +62,14 @@ class FileManageClass:
                         f'Not enough arguments to satisfy the function -> {self.prefix}f(file) dl(del) <file dir>')
                     return Variables.error
 
-                if len(splitprompt) == 3:
-                    return self.delfile(userprompt)
+                if len(splitprompt) == 3: return self.delfile(userprompt)
 
                 if len(splitprompt) > 3:
                     print(f'Unknown arguments \'{splitprompt[-1]}\' for the directory in the file del '
                           f'branch')
                     return Variables.error
 
-            case 'help' | 'h':
-                return self.filehelp()
+            case 'help' | 'h': return self.filehelp()
 
             case default:
                 print(
@@ -102,11 +97,9 @@ class FileManageClass:
         src: str = args[2]
         dst: str = args[3]
 
-        if not os.path.isabs(src):
-            src = os.path.join(os.getcwd(), src)
+        if not os.path.isabs(src): src = os.path.join(os.getcwd(), src)
 
-        if not os.path.isabs(dst):
-            dst = os.path.join(os.getcwd(), dst)
+        if not os.path.isabs(dst): dst = os.path.join(os.getcwd(), dst)
 
         try:
             dst_folder = os.path.dirname(dst)

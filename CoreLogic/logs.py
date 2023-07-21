@@ -1,4 +1,4 @@
-'''Using json to extract logs variables''' 
+'''If on logs all the commands executed in the logs folder''' 
 import json
 import datetime
 import os
@@ -29,24 +29,21 @@ class Logs:
             return Variables.success
         
         match splitprompt[1].lower():
-            case 'c' | 'clear':
-                return self.clearlogs()
-            
-            case 'on' | 'off':
-                return self.update(prompt=prompt)
-
-            case 'help' | 'h':
-                return self.logshelp()
-
+            case 'c' | 'clear': return self.clearlogs()
+            case 'on' | 'off': return self.update(prompt=prompt)
+            case 'help' | 'h': return self.logshelp()
             case default:
-                print(
-                    f'Unknown subcommand \'{default}\' for the logs branch')
+                print(f'Unknown subcommand \'{default}\' for the logs branch')
                 return Variables.exerror
 
     @logger
     def update(self, prompt: str) -> int:
         '''Updates the logs by turning them off or on'''
         splitprompt: list = prompt.split()
+
+        with open('json/config.json', 'r', encoding='utf-8') as f:
+            current = json.loads(f.read())
+
 
         match splitprompt[1].lower():
             case 'on':
@@ -55,8 +52,9 @@ class Logs:
                     return Variables.exerror
                 
                 configuration = {
-                'prefix': self.prefix,
+                'prefix': current['prefix'],
                 'logs': True,
+                'debug': current['debug']
                 }
 
                 with open('json/config.json', 'w', encoding="utf-8") as configfile:
@@ -73,8 +71,9 @@ class Logs:
                     return Variables.exerror
                 
                 configuration = {
-                'prefix': self.prefix,
+                'prefix': current['prefix'],
                 'logs': False,
+                'debug': current['debug']
                 }
 
                 with open('json/config.json', 'w', encoding="utf-8") as configfile:
