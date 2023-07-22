@@ -45,24 +45,21 @@ def setlogs(value: bool):
 def argsmain() -> None:  
     global current  
     parser = argparse.ArgumentParser(description='Arguments for prerun hox.py')
-    parser.add_argument('-d', help='1/0 (1=True 0=False) enable debug for hox.py', default=current['debug'], type=int)
+    parser.add_argument('-d', help='1/0 (1=True 0=False) enable debug for hox.py', default=False, type=int)
     parser.add_argument('-p', help='allows the user to enter any prefix for hox.py prerun', default=current['prefix'], type=str)
     parser.add_argument('-l', help='Allows the user to change logs to either 1/0 (1=True 0=False) prerun', default=current['logs'], type=int)
     arguments = parser.parse_args()
 
-    while(1):
-        if arguments.d != current['debug']:
-            match arguments.l:
-                case 1: setdebug(True)
-                case 0: setdebug(False)
-                case _: raise Exception(f"error: argument -d: invalid value: {arguments.l}")
-                
-        if arguments.l != current['logs']:
-            match arguments.l:
-                case 1: setlogs(True)
-                case 0: setlogs(False)
-                case _: raise Exception(f"error: argument -l: invalid value: {arguments.l}")
-        
-        if arguments.p != current['prefix']: setprefix(arguments.p)
-
-        break
+    if arguments.d != current['debug']:
+        match arguments.d:
+            case 1: setdebug(True)
+            case 0: setdebug(False)
+            case _: raise Exception(f"error: argument -d: invalid value: {arguments.l}")
+            
+    if arguments.l != current['logs']:
+        match arguments.l:
+            case 1: setlogs(True)
+            case 0: setlogs(False)
+            case _: raise Exception(f"error: argument -l: invalid value: {arguments.l}")
+    
+    if arguments.p != current['prefix']: setprefix(arguments.p)

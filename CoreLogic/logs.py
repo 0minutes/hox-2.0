@@ -20,13 +20,12 @@ class Logs:
         self.folderpath = 'logs/'
 
     @logger
-    def promptcheck(self, prompt: str) -> int:
+    def promptcheck(self, prompt) -> int:
         """Checks the input of the user to match the subcommand to the right function"""
-        splitprompt: list = prompt.split()
+        splitprompt = prompt.split()
 
-        if ((splitprompt[0].lower() == f'{self.prefix};' and len(splitprompt) == 1) or (splitprompt[0].lower() == f'{self.prefix}logs' and len(splitprompt) == 1)):
-            self.logshelp()
-            return Variables.success
+        if ((splitprompt[0].lower() == f'{self.prefix}l' and len(splitprompt) == 1) or (splitprompt[0].lower() == f'{self.prefix}logs' and len(splitprompt) == 1)):
+            return self.logshelp()
         
         match splitprompt[1].lower():
             case 'c' | 'clear': return self.clearlogs()

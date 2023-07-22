@@ -22,8 +22,7 @@ class Customcommands:
         """Matches the user input to the right function"""
         splitprompt = prompt.split()
         if ((splitprompt[0].lower() == f'{self.prefix}cc' and len(splitprompt) == 1) or (splitprompt[0].lower() == f'{self.prefix}customcommands' and len(splitprompt) == 1)):
-            self.cchelp()
-            return Variables.success
+            return self.cchelp()
 
         match splitprompt[1].lower():
             case 'add':

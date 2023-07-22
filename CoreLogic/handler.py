@@ -29,7 +29,7 @@ class Handler:
             elif (self.promptlowerslice[0] == f'{self.prefix}cfg' or self.promptlowerslice[0] == f'{self.prefix}config'):
                 return Config(prefix='$', logs=True).promptcheck(self.prompt)
             
-            elif (self.promptlowerslice[0] == f'{self.prefix}cc' or self.promptlowerslice[0] == f'{self.prefix}customcommand'):
+            elif (self.promptlowerslice[0] == f'{self.prefix}cc' or self.promptlowerslice[0] == f'{self.prefix}customcommands'):
                 return Customcommands().promptcheck(self.prompt)
             
             elif (self.promptlowerslice[0] == f'{self.prefix}f' or self.promptlowerslice[0] == f'{self.prefix}file'):
