@@ -1,6 +1,7 @@
 """Handles all the file commands"""
 import os
 import shutil
+import json
 from CoreLogic.variables import Variables
 from CoreLogic.decorators import logger, classlogger
 
@@ -8,8 +9,19 @@ from CoreLogic.decorators import logger, classlogger
 class FileManageClass:
     """All the commands used for file management."""
 
-    def __init__(self, prefix) -> None:
-        self.prefix: str = prefix
+    def __init__(self) -> None:
+        with open('json/config.json', 'r', encoding='utf-8') as file:
+            configuration = json.loads(file.read())
+            file.close()
+            
+        self.prefix: str = configuration['prefix']
+    
+    def __str__(self) -> str:
+        return f'''
+    Params:
+        {self.prefix = }
+    Method Count: {len([func for func in dir(self.__class__) if callable(getattr(self.__class__, func)) and not func.startswith("__")])}
+        '''
 
     @logger
     def promptcheck(self, userprompt) -> int:

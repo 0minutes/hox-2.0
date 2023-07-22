@@ -19,6 +19,15 @@ class Logs:
         self.logs = configuration['logs']
         self.folderpath = 'logs/'
 
+    def __str__(self) -> str:
+        return f'''
+    Params: 
+        {self.logfile = }
+        {self.prefix = }
+        {self.logs = }
+        {self.folderpath = }
+    Method Count: {len([func for func in dir(self.__class__) if callable(getattr(self.__class__, func)) and not func.startswith("__")])}'''
+
     @logger
     def promptcheck(self, prompt) -> int:
         """Checks the input of the user to match the subcommand to the right function"""

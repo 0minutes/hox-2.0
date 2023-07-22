@@ -11,14 +11,17 @@ with open('json/config.json', 'r', encoding="utf-8") as file:
 
 def classlogger(cls):
     '''DEBUG mode for troubleshooting'''
-    if (not debug):
+
+    if not debug:
         return cls
-    
-    classparams = cls.__init__.__code__.co_varnames[1:]
 
-    print(f'Class: {cls.__name__}\n\tParameters: {", ".join(classparams)}\n\tFunctions: {len([func for func in dir(cls) if callable(getattr(cls, func)) and not func.startswith("__")])}')
+    class WrappedClass(cls):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            print(f"Class: {cls.__name__}")
+            print(self.__str__())
 
-    return cls
+    return WrappedClass
 
 
 def logger(func):
@@ -41,7 +44,7 @@ def logger(func):
                 print(f"Run function: {func.__name__}()\n\tTook {end - start:.5f}s\n\tReturned {result}\n\tParams used:\n\t   *args: {arguments}\n\t   **kwargs: {parameters if any(parameters) else 'None'}")
                 return result
             except Exception as exp:
-                print(f'Error running Function {func}() with the error\n{exp}')
-                return result
+                print(f'Error running Function {func.__name__}() with the error\n{exp}')
+                return 101
     
         return wrapper

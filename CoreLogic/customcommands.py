@@ -17,6 +17,14 @@ class Customcommands:
         self.prefix = configuration['prefix']
         self.logs = configuration['logs']
 
+    def __str__(self) -> str:
+        return f'''
+    Params: 
+        {self.logs = }
+        {self.prefix = }
+    Method Count: {len([func for func in dir(self.__class__) if callable(getattr(self.__class__, func)) and not func.startswith("__")])}
+        '''
+
     @logger
     def promptcheck(self, prompt: str) -> int:
         """Matches the user input to the right function"""

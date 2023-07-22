@@ -6,20 +6,29 @@ from CoreLogic.decorators import logger, classlogger
 @classlogger
 class Config:
     """All the commands used for configuration."""
-    def __init__(self, prefix: str, logs: bool) -> None:
+    def __init__(self) -> None:
         with open('json/config.json', 'r', encoding='utf-8') as f:
-            current = json.loads(f.read())
+            self.current = json.loads(f.read())
 
-        self.currentprefix = current['prefix']
-        self.currentlog = current['logs']
-        self.prefix = prefix
-        self.logs = logs
+        self.currentprefix = self.current['prefix']
+        self.currentlog = self.current['logs']
         self.defaults = {
             'prefix': '$',
             'logs': False,
             'debug': False
         }
         self.dir = 'json/config.json'
+    
+    def __str__(self) -> str:
+        return f'''
+    Params:
+        {self.defaults = }
+        {self.dir = }
+        {self.currentprefix = }
+        {self.currentlog = }
+        {self.current = }
+    Method Count: {len([func for func in dir(self.__class__) if callable(getattr(self.__class__, func)) and not func.startswith("__")])}
+        '''
 
     @logger
     def promptcheck(self, userprompt) -> int:
