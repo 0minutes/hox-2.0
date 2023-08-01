@@ -80,6 +80,21 @@ class FileManageClass:
                     print(f'Unknown arguments \'{splitprompt[-1]}\' for the directory in the file del '
                           f'branch')
                     return Variables.error
+            
+            case 'sort' | 's':
+                #$f s src
+                if len(splitprompt) < 3:
+                    print(
+                        f'Not enough arguments to satisfy the function -> {self.prefix}f(file) s(sort) <folder dir>')
+                    return Variables.error
+
+                if len(splitprompt) == 3: return self.sortfiles(splitprompt[-1])
+
+                if len(splitprompt) > 3:
+                    print(f'Unknown arguments \'{splitprompt[-1]}\' for the directory in the file sort '
+                          f'branch')
+                    return Variables.error
+
 
             case 'help' | 'h': return self.filehelp()
 
@@ -90,14 +105,105 @@ class FileManageClass:
 
         return 0
 
+    @staticmethod
+    @logger
+    def sortfiles(src: str):
+        try:
+            dirlist = os.listdir(src)
+            filteredlist = []
+
+            for filename in dirlist:
+                for char in list(filename):
+                    if char == '.':
+                        filteredlist.append(filename)
+
+            musicsFolder = src + r'\music'
+            picturesFolder = src + r'\pictures'
+            videosFolder = src + r'\videos'
+            projectsFolder = src + r'\projects'
+            othersFolder = src + r'\others'
+            executeableFolder = src + r'\exe'
+            compressedFolder = src + r'\compressed'
+
+            os.makedirs(musicsFolder, exist_ok=True)
+            os.makedirs(picturesFolder, exist_ok=True)
+            os.makedirs(videosFolder, exist_ok=True)
+            os.makedirs(projectsFolder, exist_ok=True)
+            os.makedirs(othersFolder, exist_ok=True)
+            os.makedirs(executeableFolder, exist_ok=True)
+            os.makedirs(compressedFolder, exist_ok=True)
+            
+            filesSorted = 0
+            for file in filteredlist:
+                extension = file.split('.')[-1]
+                print(file)
+                try:
+                    match extension:
+                        case 'webm' | 'mp4' | 'gif':
+                            shutil.move(os.path.join(src, file), videosFolder)
+                            print(f'Moved {file} to {videosFolder}')
+                            filesSorted += 1
+
+                        case 'png' | 'jpg' | 'ico' | 'pdn':
+                            shutil.move(os.path.join(src, file), picturesFolder)
+                            print(f'Moved {file} to {picturesFolder}')
+                            filesSorted += 1
+                            
+                        case 'mp4' | 'wav' | 'mov':
+                            shutil.move(os.path.join(src, file), musicsFolder)
+                            print(f'Moved {file} to {musicsFolder}')
+                            filesSorted += 1
+
+                        case 'py' | 'js' | 'cpp' | 'c' | 'java' | 'HC' | 'C':
+                            shutil.move(os.path.join(src, file), projectsFolder)
+                            print(f'Moved {file} to {projectsFolder}')
+                            filesSorted += 1
+
+                        case 'exe':
+                            shutil.move(os.path.join(src, file), executeableFolder)
+                            print(f'Moved {file} to {executeableFolder}')
+                            filesSorted += 1
+                        
+                        case 'zip' | '7z' | 'rar' | 'gz':
+                            shutil.move(os.path.join(src, file), compressedFolder)
+                            print(f'Moved {file} to {compressedFolder}')
+                            filesSorted += 1
+
+                        case default:
+                            shutil.move(os.path.join(src, file), othersFolder)
+                            print(f'Moved {file} to {othersFolder}')
+                            filesSorted += 1
+                            
+                except (FileNotFoundError, shutil.Error, OSError) as e:
+                    print(f"Error while moving {file}: {e}")
+                    continue
+
+                except Exception as e:
+                    print(f"Unexpected error occurred while moving {file}: {e}")
+                    continue
+
+        except FileNotFoundError as e:
+            print(f"Error: {e}")
+            return Variables.error
+
+        except Exception as e:
+            print(f"Unexpected error occurred: {e}")
+            return Variables.error
+
+        else:
+            print(f'Successfully sorted {filesSorted} files')
+            return Variables.success
+
+
     @logger
     def filehelp(self) -> int:
         """Shows the commands for the file management class"""
         print(f'''FILE MANAGEMENT:
-        {self.prefix}f(file) c(copy) <from file dir> <to file dir> -> copies a file to another
-        {self.prefix}f(file) v(view) <file dir> -> allows you to view a file
+        {self.prefix}f(file) c(copy)  <from file dir> <to file dir> -> copies a file to another
+        {self.prefix}f(file) v(view)  <file dir> -> allows you to view a file
         {self.prefix}f(file) mv(move) <from file dir> <to file dir> -> allows you to move a file
-        {self.prefix}f(file) dl(del) <file dir> -> allows you to delete a file''')
+        {self.prefix}f(file) s(sort)  <folder dir> -> Sorts all files into different folders
+        {self.prefix}f(file) dl(del)  <file dir> -> allows you to delete a file''')
 
         return Variables.success
 
@@ -183,7 +289,9 @@ class FileManageClass:
         try:
             with open(filepathsplit[2], 'r', encoding="utf-8") as file:
                 contents: str = file.read()
-                print(contents)
+                lines = contents.split('\n')
+                for line in lines:
+                    print(f' ~ {line}')
                 return Variables.success
 
         except FileNotFoundError:

@@ -15,7 +15,8 @@ class Config:
         self.defaults = {
             'prefix': '$',
             'logs': False,
-            'debug': False
+            'debug': False,
+            'cwd': False
         }
         self.dir = 'json/config.json'
     
@@ -95,13 +96,28 @@ class Config:
             
             else:
                 print('Invalid input try again...')
+        
+        while (True):
+            cwd = input('Turn on cwd? (y/n): ').lower()
+            if (cwd == 'y'):
+                cwd = True
+                break
+
+            elif (cwd == 'n'):
+                cwd = False
+                break
+            
+            else:
+                print('Invalid input try again...')
+
 
         while (True):
             if (input('Save changes? (y/n): ').lower() == 'y'):
                 configuration = {
                 'prefix': prefix,
                 'logs': logs,
-                'debug': False
+                'debug': False,
+                'cwd': cwd
                 }
 
                 with open(self.dir, 'w', encoding="utf-8") as configfile:

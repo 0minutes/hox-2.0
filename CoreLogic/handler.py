@@ -14,11 +14,10 @@ class Handler:
     
     def __init__(self) -> None:
         with open('json/config.json', 'r', encoding='utf-8') as file:
-            configuration = json.loads(file.read())
+            self.configuration = json.loads(file.read())
             file.close()
 
-        self.prefix: str = configuration['prefix']
-
+        self.prefix: str = self.configuration['prefix']
 
     def __str__(self) -> str:
         return f'''
@@ -28,22 +27,23 @@ class Handler:
         '''
 
     @logger
-    def result(self, prompt) -> int:
+    def result(self, userinput) -> int:
         """Matches the input to the right command or executed the command"""
-        promptlowerslice: list = prompt.lower().split()
-        if (prompt.startswith(self.prefix)):
+        
+        promptlowerslice: list = userinput.lower().split()
+        if (userinput.startswith(self.prefix)):
             
             if (promptlowerslice[0] == f'{self.prefix}q' or promptlowerslice[0] == f'{self.prefix}quit'):return Variables.quit
-            elif (promptlowerslice[0] == f'{self.prefix}cfg' or promptlowerslice[0] == f'{self.prefix}config'): return Config().promptcheck(prompt)
-            elif (promptlowerslice[0] == f'{self.prefix}cc' or promptlowerslice[0] == f'{self.prefix}customcommands'): return Customcommands().promptcheck(prompt)
-            elif (promptlowerslice[0] == f'{self.prefix}f' or promptlowerslice[0] == f'{self.prefix}file'): return FileManageClass().promptcheck(userprompt=prompt)
-            elif (promptlowerslice[0] == f'{self.prefix}l' or promptlowerslice[0] == f'{self.prefix}logs'): return Logs().promptcheck(prompt=prompt)
-            elif (promptlowerslice[0] == f'{self.prefix}h' or promptlowerslice[0] == f'{self.prefix}help'): return self.help(prompt=prompt)
+            elif (promptlowerslice[0] == f'{self.prefix}cfg' or promptlowerslice[0] == f'{self.prefix}config'): return Config().promptcheck(userinput)
+            elif (promptlowerslice[0] == f'{self.prefix}cc' or promptlowerslice[0] == f'{self.prefix}customcommands'): return Customcommands().promptcheck(userinput)
+            elif (promptlowerslice[0] == f'{self.prefix}f' or promptlowerslice[0] == f'{self.prefix}file'): return FileManageClass().promptcheck(userinput)
+            elif (promptlowerslice[0] == f'{self.prefix}l' or promptlowerslice[0] == f'{self.prefix}logs'): return Logs().promptcheck(userinput)
+            elif (promptlowerslice[0] == f'{self.prefix}h' or promptlowerslice[0] == f'{self.prefix}help'): return self.help(userinput)
 
-            print(f'Unknown command: {prompt}')
+            print(f'Unknown command: {userinput}')
             return Variables.error
         
-        os.system(prompt)
+        os.system(userinput)
         return Variables.success
 
 

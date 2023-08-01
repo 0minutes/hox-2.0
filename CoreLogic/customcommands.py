@@ -129,6 +129,10 @@ class Customcommands:
         promptsplit: list = prompt.split()
         jsondata: list = json.load(open('json/customcommands.json', 'r', encoding='utf-8'))
 
+        if (not jsondata):
+            print('No scripts available')
+            return Variables.error
+        
         for index, script in enumerate(jsondata, start=0): #Retrieve script data
             if promptsplit[2] in script:
                 scriptindex: int = index
@@ -190,9 +194,12 @@ class Customcommands:
         scriptnum = 0
         
         with open('json/customcommands.json', 'r', encoding='utf-8') as file:
-            scriptdata: list = json.load(file)
-
-        for script in scriptdata:
+            jsondata: list = json.load(file)
+        if (not jsondata):
+            print('No scripts available')
+            return Variables.error
+        
+        for script in jsondata:
             scriptnum += 1
             for scriptkey, scriptvalue in script.items():
                 print(f'{scriptnum}: {scriptkey} Added on: {scriptvalue["AdditionDate"]}')
@@ -211,6 +218,10 @@ class Customcommands:
 
         with open('json/customcommands.json', 'r', encoding='utf-8') as file: #Retrieve all the script data from the json
             jsondata: list = json.load(file)
+
+        if (not jsondata):
+            print('No scripts available')
+            return Variables.error
         
         for script in jsondata: #Check if the script name is in the json
             if (not splitprompt[2] in script):

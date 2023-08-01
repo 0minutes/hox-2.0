@@ -62,7 +62,8 @@ class Logs:
                 configuration = {
                 'prefix': current['prefix'],
                 'logs': True,
-                'debug': current['debug']
+                'debug': current['debug'],
+                'cwd': current['cwd'],
                 }
 
                 with open('json/config.json', 'w', encoding="utf-8") as configfile:
@@ -81,7 +82,8 @@ class Logs:
                 configuration = {
                 'prefix': current['prefix'],
                 'logs': False,
-                'debug': current['debug']
+                'debug': current['debug'],
+                'cwd': current['cwd'],
                 }
 
                 with open('json/config.json', 'w', encoding="utf-8") as configfile:

@@ -1,9 +1,11 @@
 '''Main loop runs here'''
+import os
 import json
 from CoreLogic.handler import Handler
 from CoreLogic.logs import Logs
 from CoreLogic.decorators import logger
 from CoreLogic.variables import Variables
+
 
 @logger
 def main() -> int: 
@@ -12,24 +14,21 @@ def main() -> int:
         config = json.loads(file.read())
         file.close()
 
-    prefix = config['prefix']
     logs = config['logs']
     debug = config['debug']
+    cwd = config['cwd']
     log = Logs()
+    
+    if cwd:
+        print(os.getcwd())
+    
+    prompt = f'{">" if (debug is False) else "D>"} '
 
     while True:
-        prompt = input(f'{prefix if (debug is False) else "D"} ')
-        if (logs): log.writefile(prompt=prompt)
+        user = input(prompt)
+        if (logs): log.writefile(user)
+        responce = Handler().result(user)
 
-        responce = Handler().result(prompt=prompt)
-
-        if responce == Variables.logson: logs = True
-        if responce == Variables.logsoff: logs = False
-        if responce == 200: return 0
-
-        # match Handler().result(prompt):
-        #     case 300: logs = False
-        #     case 301: logs = True
-        #     case 200: return 0
-
-main()
+        if (responce == Variables.logson): logs = True
+        elif (responce == Variables.logsoff): logs = False
+        elif (responce == 200): quit(0)
