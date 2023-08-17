@@ -286,10 +286,18 @@ class FileManageClass:
         """Outputs the contents of a file"""
         filepathsplit = filepath.split()
 
+        if '/' in filepath:
+            filename = filepath.split('/')[-1]
+        elif '\\' in filepath:
+            filename = filepath.split('\\')[-1]
+        else:
+            filename = filepath.split()[-1]
+
         try:
             with open(filepathsplit[2], 'r', encoding="utf-8") as file:
                 contents: str = file.read()
                 lines = contents.split('\n')
+                print(f' ~                               {filename}')
                 for line in lines:
                     print(f' ~ {line}')
                 return Variables.success

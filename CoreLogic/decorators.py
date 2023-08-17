@@ -31,9 +31,7 @@ def classlogger(cls):
 
 def logger(func):
     '''DEBUG mode for troubleshooting'''
-    if func.__name__ == 'main':
-        func()
-
+    
     if (not debug):
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)

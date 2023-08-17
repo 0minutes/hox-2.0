@@ -32,3 +32,6 @@ def main() -> int:
         if (responce == Variables.logson): logs = True
         elif (responce == Variables.logsoff): logs = False
         elif (responce == 200): quit(0)
+
+if __name__ == '__main__':
+    main()
